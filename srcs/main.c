@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/06/24 11:40:53 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/06/26 18:40:18 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	get_command(t_cmd *cmd, char **envp)
 	else
 	{	
 		exec_cmd(cmd, envp);
-		if (cmd->is_pipe == 0)
-			wait(NULL);
+		//if (cmd->is_pipe == 0)
+		//wait(NULL);
 	}
 }
 
@@ -161,13 +161,12 @@ int	main(int ac, char **av, char **envp)
 
 	(void) ac;
 	(void) av;
-	glob = 0;
 	oui = getcwd(NULL, 0);
 	signal(SIGINT, interrupt);
 	signal(SIGQUIT, quit);
 	while (oui != 0)
 	{
-		//printf("hahaha\n");
+		glob = 0;
 		oui = readline("Minishell>");
 		if (oui && *oui)
 		{

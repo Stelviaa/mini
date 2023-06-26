@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/24 11:16:41 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/06/26 18:12:44 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,7 @@
 typedef struct s_cmd {
 	char			*name;
 	char			**arg;
-	char			*line;
-	char			*path;
-	char			*name_file;
-	int				fd_hd[2];
-	int				index;
-	int				end;
-	int				redirec_en;
-	int				redirec_ex;
 	int				fd[2];
-	int				out_fd;
-	int				in_fd;
-	int				is_pipe;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -77,4 +66,5 @@ void	create_infile(t_cmd *cmd, char *limiter);
 void	redirect_ex_cmd_basic(t_cmd *cmd);
 void	redirect_en_cmd_basic(t_cmd *cmd);
 char	*ft_union(char	**str, int start);
+t_cmd	*parsed_line(char *line, char **envp);
 #endif

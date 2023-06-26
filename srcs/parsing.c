@@ -1,39 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/08 12:07:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 18:40:47 by sforesti         ###   ########.fr       */
+/*   Created: 2023/06/26 17:50:17 by sforesti          #+#    #+#             */
+/*   Updated: 2023/06/26 18:47:36 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*join_path(char **str)
+void	get_commands(char *line, t_cmd *cmd, char **envp)
 {
-	char	*line;
+	char	**cmds;
 	int		i;
 
 	i = 0;
-	line = ft_strjoin_f(str[0], " ", 4);
-	while (str[++i])
+	cmds = ft_split(line, '|');
+	while (cmds[i])
 	{
-		line = ft_strjoin_f(line, str[i], 1);
-		line = ft_strjoin_f(line, " ", 1);
+		cmd->arg = ft_split(cmds[i], ' ');
+		cmd->name = acces_cmd(envp, cmd->arg[0]);
+		if (cmds[i + 1])
+		{
+			cmd->next = malloc(sizeof(t_cmd));
+			cmd = cmd->next;
+		}
+		i ++;
 	}
-	return (line);
+	cmd->next = 0;
 }
 
-void	manage_exec(char *line, char **envp)
+t_cmd	*parsed_line(char *line, char **envp)
 {
 	t_cmd	*cmd;
 
-	cmd = parsed_line(line, envp);
-	if (cmd->next)
-		manage_pipe(cmd, envp);
-	else
-		get_command(cmd, envp);
+	cmd = malloc(sizeof(t_cmd));
+	get_commands(line, cmd, envp);
+	return (cmd);
 }
