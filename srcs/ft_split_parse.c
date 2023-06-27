@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mboyer <mboyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:01:47 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 16:34:18 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/27 09:38:07 by mboyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,48 @@ int	ft_size_strs(char const *s, char c)
 	return (j);
 }
 
-char	*ft_fill_str(char const *s, int start, int end)
+int	nb_quotes(char const *s, int start, int end)
+{
+	int	quote;
+	int	nb;
+
+	nb = 0;
+	quote = 0;
+	while (start < end)
+	{
+		if (((s[start] == 34 || s[start] == 39) && !quote) || quote == s[start])
+		{
+			quote = s[start];
+			nb ++;
+		}
+		start++;
+	}
+	return (nb);
+}
+
+char	*ft_fill_str(char const *s, int start, int end, char c)
 {
 	char	*str;
 	int		i;
+	int		nb_q;
+	int		quote;
 
-	str = malloc(sizeof(char) * (end - start + 1));
+	quote = 0;
+	nb_q = nb_quotes(s, start, end);
+	if (nb_q % 2 == 1)
+		nb_q -= 1;
+	str = malloc(sizeof(char) * (end - start + 1 - nb_q));
 	if (!str)
 		return (0);
 	i = 0;
 	while (start < end)
-		str[i++] = s[start++];
+	{
+		if ((((s[start] == 34 || s[start] == 39) && !quote)
+				|| quote == s[start]) && c != '|')
+			start++;
+		else
+			str[i++] = s[start++];
+	}
 	str[i] = '\0';
 	return (str);
 }
@@ -76,6 +107,8 @@ char	**ft_fill(char const *s, char c, char **r_str, int verif)
 	quote = 0;
 	while (s[i] && !verif)
 	{
+		while (s[i] && ft_is_charset(s[i], c))
+			i++;
 		start = i;
 		while (s[i] && (!ft_is_charset(s[i], c) || quote))
 		{
@@ -88,7 +121,7 @@ char	**ft_fill(char const *s, char c, char **r_str, int verif)
 		end = i;
 		while (s[i] && ft_is_charset(s[i], c))
 			i++;
-		r_str[j] = ft_fill_str(s, start, end);
+		r_str[j] = ft_fill_str(s, start, end, c);
 		j ++;
 	}
 	r_str[j] = 0;

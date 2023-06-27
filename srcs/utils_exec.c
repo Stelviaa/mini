@@ -30,7 +30,7 @@ char	*acces_cmd(char **envp, char *cmd)
 
 	i = -1;
 	(void)envp;
-	if (!access(cmd, F_OK))
+	if (!access(cmd, F_OK) && ft_strchr(cmd, '/'))
 		return (cmd);
 	path = ft_split(getenv("PATH"), ':');
 	while (path[++i])
