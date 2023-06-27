@@ -1,4 +1,4 @@
-SRCS = srcs/main.c srcs/env.c srcs/echo.c srcs/utils.c srcs/utils_exec.c srcs/exec.c srcs/parsing.c srcs/pipe.c #srcs/here_doc.c
+SRCS = srcs/main.c srcs/env.c srcs/echo.c srcs/utils.c srcs/utils_exec.c srcs/exec.c srcs/parsing.c srcs/pipe.c srcs/ft_split_parse.c #srcs/here_doc.c
 
 SRCS_BONUS	= 
 CC = gcc

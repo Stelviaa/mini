@@ -32,6 +32,8 @@ void	manage_exec(char *line, char **envp)
 	t_cmd	*cmd;
 
 	cmd = parsed_line(line, envp);
+	if (cmd->arg[0][0] == 0)
+		return ;
 	if (cmd->next)
 		manage_pipe(cmd, envp, line);
 	else

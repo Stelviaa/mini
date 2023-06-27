@@ -51,6 +51,8 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line);
 char	*str_lower(char *str);
 void	rl_replace_line(const char *text, int clear_undo);
 int		count_pipe(char *line);
+char	**pre_process(char **str, char **envp);
+char	**ft_split_parse(char const *s, char c);
 int		manage_pipe(t_cmd *cmd, char **envp, char *line);
 void	get_command(t_cmd *cmd, char **envp, char *line);
 int		size_dptr(char **str);

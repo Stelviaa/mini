@@ -16,12 +16,18 @@ int	count_pipe(char *line)
 {
 	int	i;
 	int	nbr_pipe;
+	int	quote;
 
 	i = -1;
 	nbr_pipe = 0;
+	quote = 0;
 	while (line[++i])
 	{
-		if (line[i] == '|')
+		if ((line[i] == 39 || line[i] == 34) && quote == 0)
+			quote = line[i];
+		else if (line[i] == quote)
+			quote = 0;
+		if (line[i] == '|' && !quote)
 			nbr_pipe ++;
 	}
 	return (nbr_pipe);

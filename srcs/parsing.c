@@ -18,10 +18,11 @@ void	get_commands(char *line, t_cmd *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	cmds = ft_split(line, '|');
+	cmds = ft_split_parse(line, '|');
 	while (cmds[i])
 	{
 		cmd->arg = ft_split(cmds[i], ' ');
+		pre_process(cmd->arg, envp);
 		cmd->name = acces_cmd(envp, cmd->arg[0]);
 		if (cmds[i + 1])
 		{
