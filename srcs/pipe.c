@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 13:57:20 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 18:45:28 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/27 08:01:33 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	redirection_enter(t_cmd *cmd)
 	return (0);
 }
 
-int	exec_pipe(t_cmd *cmd, char **envp)
+int	exec_pipe(t_cmd *cmd, char **envp, char *line)
 {
 	pid_t	pid;
 
@@ -69,7 +69,7 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 	{
 		if (cmd->next)
 			redirection_exit(cmd);
-		get_command(cmd, envp);
+		get_command(cmd, envp, line);
 	}
 	else
 	{
@@ -81,33 +81,18 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 	return (0);
 }
 
-int	manage_pipe(t_cmd *cmd, char **envp)
+int	manage_pipe(t_cmd *cmd, char **envp, char *line)
 {
-	//int		nbr_cmd;
 	int		stdin_fd;
 
 	stdin_fd = dup(STDIN_FILENO);
-	//nbr_cmd = cmd->end;
-	(void) envp;
-	//cmd->in_fd = 0;
-	//cmd->out_fd = 0;
 	while (cmd)
 	{
-		//if (cmd->index == 0 && cmd->redirec_en == 1)
-		//{
-			//cmd->in_fd = open(cmd->name_file, O_RDWR);
-			//dup2(cmd->in_fd, STDIN_FILENO);
-		//}
-		exec_pipe(cmd, envp);
-		//printf("%s\n%s====\n",cmd->name, cmd->arg[0]);
+		exec_pipe(cmd, envp, line);
 		cmd = cmd->next;
 	}
 	dup2(stdin_fd, 0);
 	while (wait(NULL) > 0)
 		;
-	//if (cmd->in_fd)
-		//close (cmd->in_fd);
-	//if (cmd->out_fd)
-		//close (cmd->out_fd);
 	return (0);
 }

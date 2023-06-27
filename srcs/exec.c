@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:07:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 18:40:47 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/27 07:59:07 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	manage_exec(char *line, char **envp)
 
 	cmd = parsed_line(line, envp);
 	if (cmd->next)
-		manage_pipe(cmd, envp);
+		manage_pipe(cmd, envp, line);
 	else
-		get_command(cmd, envp);
+		get_command(cmd, envp, line);
 }

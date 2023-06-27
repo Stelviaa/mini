@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:33:52 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 18:49:34 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/27 08:05:07 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*acces_cmd(char **envp, char *cmd)
 
 	i = -1;
 	(void)envp;
+	if (!access(cmd, F_OK))
+		return (cmd);
 	path = ft_split(getenv("PATH"), ':');
 	while (path[++i])
 		path[i] = ft_strjoin_f(path[i], ft_strdup("/"), 3);
@@ -103,13 +105,14 @@ char	*acces_cmd(char **envp, char *cmd)
 	}
 }*/
 
-void	exec_cmd(t_cmd *cmd, char **envp)
+void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 {
 	pid_t	pid;
 	int		status;
 
 	pid = 0;
-	//pid = fork();
+	if (!count_pipe(line))
+		pid = fork();
 	if (pid == 0)
 	{
 		glob = 1;

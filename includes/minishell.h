@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 18:12:44 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/27 07:57:50 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ char	**split_path(char **envp);
 char	*acces_cmd(char **envp, char *cmd);
 char	*ft_quote(char *str);
 void	free_dptr(char	**dptr);
-void	exec_cmd(t_cmd *cmd, char **envp);
+void	exec_cmd(t_cmd *cmd, char **envp, char *line);
 char	*str_lower(char *str);
 void	rl_replace_line(const char *text, int clear_undo);
 int		count_pipe(char *line);
-int		manage_pipe(t_cmd *cmd, char **envp);
-void	get_command(t_cmd *cmd, char **envp);
+int		manage_pipe(t_cmd *cmd, char **envp, char *line);
+void	get_command(t_cmd *cmd, char **envp, char *line);
 int		size_dptr(char **str);
 t_cmd	*init_cmd_pipe(char *line, char **envp);
 void	cmd_with_path(t_cmd *cmd, char	*path, char **envp);
