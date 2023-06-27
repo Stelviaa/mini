@@ -16,12 +16,22 @@ void	get_commands(char *line, t_cmd *cmd, char **envp)
 {
 	char	**cmds;
 	int		i;
+	char	*lines;
 
 	i = 0;
 	cmds = ft_split_parse(line, '|');
+	lines = NULL;
 	while (cmds[i])
 	{
 		cmd->arg = ft_split_parse(cmds[i], ' ');
+		if (find_name(cmd->arg, 1) != -1 || find_name(cmd->arg, 2) != -1)
+		{
+			manage_redirec(envp, cmd);
+			lines = ft_union(cmd->arg);
+			//printf("%s\n", lines);
+			//free_dptr(cmd->arg);
+			//cmd->arg = ft_split(lines, " ");
+		}
 		pre_process(cmd->arg, envp);
 		cmd->name = acces_cmd(envp, cmd->arg[0]);
 		if (cmds[i + 1])

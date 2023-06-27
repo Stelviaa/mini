@@ -31,6 +31,8 @@ void	manage_exec(char *line, char **envp)
 {
 	t_cmd	*cmd;
 
+	//if (find_name(cmd->arg, 1) != -1 || find_name(cmd->arg, 2) != -1)
+	//cmd = manage_redirec(envp, line);
 	cmd = parsed_line(line, envp);
 	if (cmd->arg[0][0] == 0)
 		return ;

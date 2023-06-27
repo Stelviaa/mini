@@ -26,10 +26,19 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+typedef struct s_file {
+	int				redirec_ex;
+	int				redirec_out;
+	char			*fd_file_in;
+	char			*fd_file_out;
+
+}				t_file;
+
 typedef struct s_cmd {
 	char			*name;
 	char			**arg;
 	int				fd[2];
+	t_file			*file;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -60,6 +69,7 @@ t_cmd	*init_cmd_pipe(char *line, char **envp);
 void	cmd_with_path(t_cmd *cmd, char	*path, char **envp);
 char	*join_path(char **str);
 t_cmd	*init_cmd_basic(t_cmd *cmd, char *line, char **envp);
+int		find_name(char	**str, int mode);
 t_cmd	*manage_cmd(char *line, char **envp);
 void	manage_exec(char *line, char **envp);
 t_cmd	*parse_path(t_cmd *cmd, char *path);
@@ -67,6 +77,8 @@ void	exec_for_pipe(t_cmd *cmd, char **envp);
 void	create_infile(t_cmd *cmd, char *limiter);
 void	redirect_ex_cmd_basic(t_cmd *cmd);
 void	redirect_en_cmd_basic(t_cmd *cmd);
-char	*ft_union(char	**str, int start);
+char	*ft_union(char	**str);
 t_cmd	*parsed_line(char *line, char **envp);
+void	manage_redirec(char **envp, t_cmd *cmd);
+
 #endif

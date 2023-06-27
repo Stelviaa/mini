@@ -8,13 +8,6 @@ présents dans la séquence entre guillemets.
 présents dans la séquence entre guillemets sauf le $ (signe dollar).
 ◦ << doit recevoir un délimiteur et lire l’input donné jusqu’à rencontrer une ligne
 contenant le délimiteur. Cependant, l’historique n’a pas à être mis à jour !
-• Gérer les variables d’environnement (un $ suivi d’une séquence de caractères)
-qui doivent être substituées par leur contenu.
 • Gérer $? qui doit être substitué par le statut de sortie de la dernière pipeline
 exécutée au premier plan.
-• Gérer ctrl-C, ctrl-D et ctrl-\ qui doivent fonctionner comme dans bash.
-• En mode interactif :
-◦ ctrl-C affiche un nouveau prompt sur une nouvelle ligne.
-◦ ctrl-D quitte le shell.
-◦ ctrl-\ ne fait rien.
 ◦ cd uniquement avec un chemin relatif ou absolu

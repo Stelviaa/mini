@@ -114,14 +114,25 @@ char	*str_lower(char *str)
 	return (ret);
 }
 
-char	*ft_union(char	**str, int start)
+char	*ft_union(char	**str)
 {
-	//int		len;
+	int		len;
+	int		i;
 	char	*ret;
 
-	//len = 0;
-	ret = ft_strdup(str[start]);
-	while (str[++start + 1])
-		ret = ft_strjoin (ret, str[start]);
+	i = find_name(str, 1) - 1;
+	len = -1;
+	if (i == 0)
+	{
+		if (ft_strlen(str[0]) > 1)
+			len = 0;
+		else
+			len = 1;
+	}
+	ret = ft_strdup("");
+	while (((++len < i) && i != 0) || (str[len] && !i))
+	{
+		ret = ft_strjoin_f(ft_strjoin_f(ret, str[len], 4), " ", 4);
+	}
 	return (ret);
 }

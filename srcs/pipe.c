@@ -96,6 +96,8 @@ int	manage_pipe(t_cmd *cmd, char **envp, char *line)
 	{
 		exec_pipe(cmd, envp, line);
 		cmd = cmd->next;
+		//if (find_name(cmd->arg, 1) != -1 || find_name(cmd->arg, 2) != -1)
+			//manage_redirec(cmd, envp, line);
 	}
 	dup2(stdin_fd, 0);
 	while (wait(NULL) > 0)
