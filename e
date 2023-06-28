@@ -1,1 +1,16 @@
-       0
+Makefile
+b
+cat
+e
+fjkwejf
+includes
+libft
+ls
+ls2
+minishell
+oui
+q
+srcs
+todo
+u
+w

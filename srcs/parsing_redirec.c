@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 08:15:45 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/27 08:15:46 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/28 20:15:45 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,24 @@ int	find_name(char	**str, int mode)
 }*/
 
 
+t_file	*init_tfile(char *line)
+{
+	t_file	*file;
 
+	(void)line;
+	file = malloc(sizeof(t_file));
+	file->fd_file_in = 0;
+	file->fd_file_out = 0;
+	return (file);
+}
 
-void	manage_redirec(char **envp, t_cmd *cmd)
+void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 {
 	int	i;
 
 	(void)envp;
-	cmd->file = malloc(sizeof(t_file));
+	(void)line;
+	cmd->file = init_tfile(line);
 	if ((find_name(cmd->arg, 1)) && cmd->arg[1])
 	{
 		i = find_name(cmd->arg, 1);
@@ -75,5 +85,4 @@ void	manage_redirec(char **envp, t_cmd *cmd)
 		else if (i != -1)
 			cmd->file->fd_file_out = cmd->arg[i];
 	}
-	printf("%s\n", cmd->file->fd_file_in);
 }

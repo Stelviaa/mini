@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/06/27 08:00:08 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:07:05 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 	{	
 		exec_cmd(cmd, envp, line);
 		if (!count_pipe(line))
-			wait(NULL);
+			waitpid(-1, NULL, 0);
 	}
 }
 

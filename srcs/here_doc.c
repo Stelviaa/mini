@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:29:31 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/13 13:31:27 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:32:29 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	create_infile(t_cmd *gnl, char *limiter)
 {
 	char	*line;
 	char	*str;
+	int		fd_hd[2];
 
 	str = ft_calloc(1, 1);
 	limiter = ft_strjoin_f(limiter, ft_strdup("\n"), 3);
-	if (pipe(gnl->fd_hd) == -1)
+	if (pipe(fd_hd) == -1)
 		perror("Minishell: HereDoc: ");
 	while (1)
 	{
@@ -31,11 +32,11 @@ void	create_infile(t_cmd *gnl, char *limiter)
 	}
 	free (line);
 	str = ft_strjoin_f(str, ft_strdup("\0"), 3);
-	write (gnl->fd_hd[1], str, ft_strlen(str));
+	write (fd_hd[1], str, ft_strlen(str));
 	free(str);
 	free(limiter);
-	gnl->in_fd = dup(gnl->fd_hd[0]);
-	close(gnl->fd_hd[0]);
-	close(gnl->fd_hd[1]);
+	gnl->in_fd = dup(fd_hd[0]);
+	close(fd_hd[0]);
+	close(fd_hd[1]);
 	return ;
 }

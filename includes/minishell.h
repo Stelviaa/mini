@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/27 07:57:50 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:39:11 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	manage_exec(char *line, char **envp);
 t_cmd	*parse_path(t_cmd *cmd, char *path);
 void	exec_for_pipe(t_cmd *cmd, char **envp);
 void	create_infile(t_cmd *cmd, char *limiter);
-void	redirect_ex_cmd_basic(t_cmd *cmd);
-void	redirect_en_cmd_basic(t_cmd *cmd);
+void	redirect_ex_cmd_basic(t_file *file);
+void	redirect_en_cmd_basic(t_file *file);
 char	*ft_union(char	**str);
 t_cmd	*parsed_line(char *line, char **envp);
-void	manage_redirec(char **envp, t_cmd *cmd);
+void	manage_redirec(char **envp, t_cmd *cmd, char *line);
 
 #endif

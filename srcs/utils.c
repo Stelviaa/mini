@@ -6,7 +6,7 @@
 /*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:24:07 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/23 17:06:44 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/06/27 22:15:24 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,22 +117,20 @@ char	*str_lower(char *str)
 char	*ft_union(char	**str)
 {
 	int		len;
-	int		i;
 	char	*ret;
 
-	i = find_name(str, 1) - 1;
-	len = -1;
-	if (i == 0)
-	{
-		if (ft_strlen(str[0]) > 1)
-			len = 0;
-		else
-			len = 1;
-	}
+	len = 0;
 	ret = ft_strdup("");
-	while (((++len < i) && i != 0) || (str[len] && !i))
+	while (str[len])
 	{
-		ret = ft_strjoin_f(ft_strjoin_f(ret, str[len], 4), " ", 4);
+		if (is_in(str[len], '<') || is_in(str[len], '>'))
+		{
+			if (ft_strlen(str[len]) == 1)
+				len ++;
+		}
+		else
+			ret = ft_strjoin_f(ft_strjoin_f(ret, str[len], 4), " ", 4);
+		len ++;
 	}
 	return (ret);
 }
