@@ -6,7 +6,7 @@
 /*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/28 22:39:11 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/06/29 00:06:08 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@
 # include <termios.h>
 
 typedef struct s_file {
-	int				redirec_ex;
-	int				redirec_out;
-	char			*fd_file_in;
-	char			*fd_file_out;
-
+	int				type;
+	char			*fd_file;
+	struct s_file	*next;
 }				t_file;
 
 typedef struct s_cmd {

@@ -6,7 +6,7 @@
 /*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 08:15:45 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/28 20:15:45 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/06/29 01:27:30 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,86 @@ t_file	*init_tfile(char *line)
 
 	(void)line;
 	file = malloc(sizeof(t_file));
-	file->fd_file_in = 0;
-	file->fd_file_out = 0;
+	file->fd_file = 0;
+	file->type = 0;
+	file->next = 0;
 	return (file);
 }
 
+
 void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 {
-	int	i;
+	int		x;
+	int		y;
+	t_file	*file;
 
 	(void)envp;
 	(void)line;
+	x = 0;
+	y = 0;
 	cmd->file = init_tfile(line);
-	if ((find_name(cmd->arg, 1)) && cmd->arg[1])
+	file = cmd->file;
+	while (cmd->arg[x])
 	{
-		i = find_name(cmd->arg, 1);
-		if (i != -1 && ft_strlen(cmd->arg[i - 1]) > 1)
-			cmd->file->fd_file_in = ft_split(cmd->arg[i - 1], '<')[0];
-		else if (i != -1)
-			cmd->file->fd_file_in = cmd->arg[i];
-	}
-	if ((find_name(cmd->arg, 2)) && cmd->arg[1])
-	{
-		i = find_name(cmd->arg, 2);
-		if (i != -1 && ft_strlen(cmd->arg[i - 1]) > 1)
-			cmd->file->fd_file_out = ft_split(cmd->arg[i - 1], '>')[0];
-		else if (i != -1)
-			cmd->file->fd_file_out = cmd->arg[i];
+		y = 0;
+		while (cmd->arg[x][y])
+		{
+			if (cmd->arg[x][y] == '<' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '<' )
+			{
+				if (file->type != 0)
+				{
+					file->next = init_tfile(line);
+					file = file->next; 
+				}
+				file->type = 3;
+				y ++;
+				if (ft_strlen(cmd->arg[x]) > 1)
+					file->fd_file = ft_split(cmd->arg[x], '<')[0];
+				else
+					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+			}
+			else if (cmd->arg[x][y] == '<')
+			{
+				if (file->type != 0)
+				{
+					file->next = init_tfile(line);
+					file = file->next; 
+				}
+				file->type = 1;
+				if (ft_strlen(cmd->arg[x]) > 1)
+					file->fd_file = ft_split(cmd->arg[x], '<')[0];
+				else
+					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+			}
+			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '>' )
+			{
+				if (file->type != 0)
+				{
+					file->next = init_tfile(line);
+					file = file->next; 
+				}
+				file->type = 4;
+				y ++;
+				if (ft_strlen(cmd->arg[x]) > 1)
+					file->fd_file = ft_split(cmd->arg[x], '>')[0];
+				else
+					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+			}
+			else if (cmd->arg[x][y] == '>')
+			{
+				if (file->type != 0)
+				{
+					file->next = init_tfile(line);
+					file = file->next; 
+				}
+				file->type = 2;
+				if (ft_strlen(cmd->arg[x]) > 1)
+					file->fd_file = ft_split(cmd->arg[x], '>')[0];
+				else
+					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+			}
+			y ++;
+		}
+		x ++;
 	}
 }

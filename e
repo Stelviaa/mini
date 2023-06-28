@@ -1,8 +1,10 @@
+@Õ«lU
 Makefile
-b
+a
 cat
 e
 fjkwejf
+g
 includes
 libft
 ls

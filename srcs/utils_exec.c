@@ -6,7 +6,7 @@
 /*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:33:52 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/28 20:13:09 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/06/29 01:22:09 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	redirect_en_cmd_basic(t_file *file)
 	int	fd;
 
 	fd = 0;
-	if (file->fd_file_in)
+	if (file->type == 1)
 	{
-		fd = open (file->fd_file_in, O_RDONLY);
+		fd = open (file->fd_file, O_RDONLY);
 		if (fd == -1)
 		{
-			perror(ft_strjoin_f("Minishell: ", file->fd_file_in, 4));
+			perror(ft_strjoin_f("Minishell: ", file->fd_file, 4));
 			exit (0);
 		}
 		dup2(fd, STDIN_FILENO);
@@ -83,12 +83,12 @@ void	redirect_ex_cmd_basic(t_file *file)
 	int	fd;
 
 	fd = 0;
-	if (file->fd_file_out)
+	if (file->type == 2)
 	{
-		fd = open (file->fd_file_out, O_CREAT | O_TRUNC | O_RDWR, 0644);
+		fd = open (file->fd_file, O_CREAT | O_TRUNC | O_RDWR, 0644);
 		if (fd == -1)
 		{
-			perror(ft_strjoin_f("Minishell: ", file->fd_file_out, 4));
+			perror(ft_strjoin_f("Minishell: ", file->fd_file, 4));
 			exit(0);
 		}
 		dup2(fd, STDOUT_FILENO);
@@ -116,10 +116,11 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 	if (pid == 0)
 	{
 		glob = 1;
-		if (cmd->file)
+		while (cmd->file && cmd->file->type)
 		{
 			redirect_en_cmd_basic(cmd->file);
 			redirect_ex_cmd_basic(cmd->file);
+			cmd->file = cmd->file->next;
 		}
 		status = execve(cmd->name, cmd->arg, envp);
 		if (status == -1)
