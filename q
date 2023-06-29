@@ -1,5 +1,0 @@
--rw-r--r--   1 sforesti  2022_nice    858 Jun  8 16:33 Makefile
--rw-r--r--   1 sforesti  2022_nice      0 Jun 12 16:01 a
--rw-r--r--   1 sforesti  2022_nice     48 Jun 12 16:02 e
--rw-r--r--   1 sforesti  2022_nice      0 Jun 12 16:04 q
--rw-r--r--   1 sforesti  2022_nice      3 Jun 12 16:01 todo

@@ -65,17 +65,17 @@ void	redirect_en_cmd_basic(t_file *file)
 		}
 		dup2(fd, STDIN_FILENO);
 	}
-	/*if (cmd->redirec_en == 2)
+	if (file->type == 3)
 	{
-		create_infile(cmd, file->fd_file_in);
+		fd = create_infile(file->fd_file);
 		//cmd->fd_hd = open ("fd_hd", O_RDWR);
 		if (fd == -1)
 		{
-			perror(ft_strjoin_f("Minishell: ", file->fd_file_in, 4));
+			perror(ft_strjoin_f("Minishell: ", file->fd_file, 4));
 			exit (0);
 		}
-		dup2(cmd->in_fd, STDIN_FILENO);
-	}*/
+		dup2(fd, STDIN_FILENO);
+	}
 }
 
 void	redirect_ex_cmd_basic(t_file *file)
@@ -83,6 +83,7 @@ void	redirect_ex_cmd_basic(t_file *file)
 	int	fd;
 
 	fd = 0;
+	//ft_putnbr_fd(file->type, 2);
 	if (file->type == 2)
 	{
 		fd = open (file->fd_file, O_CREAT | O_TRUNC | O_RDWR, 0644);
@@ -93,16 +94,16 @@ void	redirect_ex_cmd_basic(t_file *file)
 		}
 		dup2(fd, STDOUT_FILENO);
 	}
-	/*if (cmd->redirec_ex == 2)
+	if (file->type == 4)
 	{
-		fd = open (cmd->fd_file_out, O_CREAT | O_APPEND | O_RDWR, 0644);
+		fd = open (file->fd_file, O_CREAT | O_APPEND | O_RDWR, 0644);
 		if (fd == -1)
 		{
-			perror(ft_strjoin_f("Minishell: ", cmd->name_file, 4));
+			perror(ft_strjoin_f("Minishell: ", file->fd_file, 4));
 			exit(0);
 		}
 		dup2(fd, STDOUT_FILENO);
-	}*/
+	}
 }
 
 void	exec_cmd(t_cmd *cmd, char **envp, char *line)

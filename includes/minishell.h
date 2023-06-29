@@ -72,7 +72,7 @@ t_cmd	*manage_cmd(char *line, char **envp);
 void	manage_exec(char *line, char **envp);
 t_cmd	*parse_path(t_cmd *cmd, char *path);
 void	exec_for_pipe(t_cmd *cmd, char **envp);
-void	create_infile(t_cmd *cmd, char *limiter);
+int		create_infile(char *limiter);
 void	redirect_ex_cmd_basic(t_file *file);
 void	redirect_en_cmd_basic(t_file *file);
 char	*ft_union(char	**str);

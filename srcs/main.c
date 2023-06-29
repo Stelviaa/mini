@@ -35,7 +35,7 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 	{	
 		exec_cmd(cmd, envp, line);
 		if (!count_pipe(line))
-			waitpid(-1, NULL, 0);
+			wait(-1, NULL, 0);
 	}
 }
 

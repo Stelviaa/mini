@@ -81,7 +81,7 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 		y = 0;
 		while (cmd->arg[x][y])
 		{
-			if (cmd->arg[x][y] == '<' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '<' )
+			if (cmd->arg[x][y] == '<' && cmd->arg[x][y + 1] == '<' && !cmd->arg[x][y + 2])
 			{
 				if (file->type != 0)
 				{
@@ -108,7 +108,7 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
 			}
-			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '>' )
+			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] == '>' && !cmd->arg[x][y + 2])
 			{
 				if (file->type != 0)
 				{
