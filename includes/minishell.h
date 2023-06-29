@@ -78,5 +78,6 @@ void	redirect_en_cmd_basic(t_file *file);
 char	*ft_union(char	**str);
 t_cmd	*parsed_line(char *line, char **envp);
 void	manage_redirec(char **envp, t_cmd *cmd, char *line);
+t_file	*init_tfile(char *line);
 
 #endif

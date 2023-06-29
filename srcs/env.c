@@ -103,10 +103,8 @@ void	ft_env(char **envp)
 int	index_env(char *name, char **envp)
 {
 	int		i;
-	//char	*name_e;
 
 	i = 0;
-	//name_e = ft_strjoin(name, ft_strdup("="));
 	while (envp[i])
 	{
 		if (is_env(name, envp[i]))
@@ -145,8 +143,8 @@ void	ft_cd(char *path, char **envp)
 	if (i == -1)
 	{
 		strerror(errno);
-		//perror("Minishell: cd:");
-		//perror(path);
+		perror("Minishell: cd:");
+		perror(path);
 		return ;
 	}
 	y = index_env(ft_strdup("OLDPWD"), envp);

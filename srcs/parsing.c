@@ -37,8 +37,8 @@ void	get_commands(char *line, t_cmd *cmd, char **envp)
 		{
 			cmd->next = malloc(sizeof(t_cmd));
 			cmd = cmd->next;
+			cmd->file = 0;
 		}
-		//printf("%s\n", cmd->name);
 		i ++;
 	}
 	cmd->next = 0;

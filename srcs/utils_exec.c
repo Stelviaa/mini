@@ -68,7 +68,6 @@ void	redirect_en_cmd_basic(t_file *file)
 	if (file->type == 3)
 	{
 		fd = create_infile(file->fd_file);
-		//cmd->fd_hd = open ("fd_hd", O_RDWR);
 		if (fd == -1)
 		{
 			perror(ft_strjoin_f("Minishell: ", file->fd_file, 4));
@@ -83,7 +82,6 @@ void	redirect_ex_cmd_basic(t_file *file)
 	int	fd;
 
 	fd = 0;
-	//ft_putnbr_fd(file->type, 2);
 	if (file->type == 2)
 	{
 		fd = open (file->fd_file, O_CREAT | O_TRUNC | O_RDWR, 0644);
@@ -112,12 +110,13 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 	int		status;
 
 	pid = 0;
+	(void) line;
 	if (!count_pipe(line))
 		pid = fork();
 	if (pid == 0)
 	{
 		glob = 1;
-		while (cmd->file && cmd->file->type)
+		while (cmd->file)
 		{
 			redirect_en_cmd_basic(cmd->file);
 			redirect_ex_cmd_basic(cmd->file);

@@ -14,41 +14,30 @@
 
 int	find_name(char	**str, int mode)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	int		quote;
 
 	i = -1;
 	j = -1;
+	quote = 0;
 	while (str[++i])
 	{
 		while (str[i][++j])
 		{
-			if (str[i][j] == '<' && mode == 1)
+			if ((str[i][j] == 39 || str[i][j] == 34) && !quote)
+				quote = str[i][j];
+			else if (str[i][j] == quote)
+				quote = 0;
+			if (!quote && str[i][j] == '<' && mode == 1)
 				return (i + 1);
-			if (str[i][j] == '>' && mode == 2)
+			if (!quote && str[i][j] == '>' && mode == 2)
 				return (i + 1);
 		}
 		j = -1;
 	}
 	return (-1);
 }
-
-/*char	**redirec_format(char **arg)
-{
-	char	**ret;
-	int		i;
-
-	i = 0;
-	while (arg[i])
-		i ++;
-	if ()
-	ret = malloc(sizeof(char * ));
-	if (find_name(arg, 1) != -1)
-	{
-
-	}
-
-}*/
 
 
 t_file	*init_tfile(char *line)
@@ -81,7 +70,7 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 		y = 0;
 		while (cmd->arg[x][y])
 		{
-			if (cmd->arg[x][y] == '<' && cmd->arg[x][y + 1] == '<' && !cmd->arg[x][y + 2])
+			if (cmd->arg[x][y] == '<' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '<' )
 			{
 				if (file->type != 0)
 				{
@@ -90,7 +79,7 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 				}
 				file->type = 3;
 				y ++;
-				if (ft_strlen(cmd->arg[x]) > 1)
+				if (ft_strlen(cmd->arg[x]) > 2)
 					file->fd_file = ft_split(cmd->arg[x], '<')[0];
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
@@ -103,12 +92,12 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 					file = file->next; 
 				}
 				file->type = 1;
-				if (ft_strlen(cmd->arg[x]) > 1)
+				if (ft_strlen(cmd->arg[x]) > 2)
 					file->fd_file = ft_split(cmd->arg[x], '<')[0];
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
 			}
-			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] == '>' && !cmd->arg[x][y + 2])
+			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '>' )
 			{
 				if (file->type != 0)
 				{

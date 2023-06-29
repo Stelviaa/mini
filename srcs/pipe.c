@@ -35,31 +35,17 @@ int	count_pipe(char *line)
 
 int	redirection_exit(t_cmd *cmd)
 {
-	//int	fd;
-
-	//fd = 0;
-	//if (cmd->next)
-	//{
-		close(cmd->fd[0]);
-		dup2(cmd->fd[1], STDOUT_FILENO);
-		close(cmd->fd[1]);
-	//}
-	//}
-	//else if (cmd->redirec_ex != 0)
-		//redirect_ex_cmd_basic(cmd);
+	close(cmd->fd[0]);
+	dup2(cmd->fd[1], STDOUT_FILENO);
+	close(cmd->fd[1]);
 	return (0);
 }
 
 int	redirection_enter(t_cmd *cmd)
 {
-	//if (cmd->redirec_en == 0)
-	//{
 	dup2(cmd->fd[0], STDIN_FILENO);
 	close (cmd->fd[0]);
 	close (cmd->fd[1]);
-	//}
-	//if (cmd->redirec_en != 0)
-		//redirect_ex_cmd_basic(cmd);
 	return (0);
 }
 
@@ -67,19 +53,18 @@ int	exec_pipe(t_cmd *cmd, char **envp, char *line)
 {
 	pid_t	pid;
 
-	//if (cmd->next)
-	if (pipe(cmd->fd) == -1)
-		return (-1);
+	if (cmd->next)
+		if (pipe(cmd->fd) == -1)
+			return (-1);
 	pid = fork();
 	if (pid == 0)
 	{
-		//if (cmd->next)
-			redirection_exit(cmd); // viens de la redirection des files
+		redirection_exit(cmd);
 		get_command(cmd, envp, line);
 	}
 	else
 	{
-		//if (cmd->next)
+		if (cmd->next)
 			redirection_enter(cmd);
 	}
 	close (cmd->fd[1]);
@@ -98,8 +83,6 @@ int	manage_pipe(t_cmd *cmd, char **envp, char *line)
 	{
 		exec_pipe(cmd, envp, line);
 		cmd = cmd->next;
-		//if (find_name(cmd->arg, 1) != -1 || find_name(cmd->arg, 2) != -1)
-			//manage_redirec(cmd, envp, line);
 	}
 	dup2(stdin_fd, 0);
 	dup2(stdout_fd, 1);

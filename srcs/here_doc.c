@@ -34,7 +34,6 @@ int	create_infile(char *limiter)
 	str = ft_calloc(1, 1);
 	limiter = ft_strjoin_f(limiter, ft_strdup("\n"), 3);
 	line = NULL;
-	printf ("%s\n", limiter);
 	if (pipe(fd_hd) == -1)
 		perror("Minishell: HereDoc: ");
 	str = read_input(limiter, str, line);

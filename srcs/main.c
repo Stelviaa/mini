@@ -32,10 +32,10 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 	else if (is_equal("cd", command))
 		ft_cd(cmd->arg[1], envp);
 	else
-	{	
+	{
 		exec_cmd(cmd, envp, line);
 		if (!count_pipe(line))
-			wait(-1, NULL, 0);
+			waitpid(-1, NULL, 0);
 	}
 }
 
@@ -146,7 +146,7 @@ void	quit(int i)
 	}
 }
 
-void	handle_ctrl()
+void	handle_ctrl(void)
 {
 	struct termios	new;
 
@@ -172,7 +172,8 @@ int	main(int ac, char **av, char **envp)
 		{
 			add_history(oui);
 			manage_exec(oui, envp);
-		}	
+		}
+		printf("exit\n");
 	}
 	return (0);
 }

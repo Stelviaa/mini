@@ -15,15 +15,17 @@
 int	is_in(char *str, char c)
 {
 	int	i;
+	int it;
 
 	i = 0;
+	it = 0;
 	while (str[i])
 	{
 		if (str[i] == c)
-			return (1);
+			it ++;
 		i ++;
 	}
-	return (0);
+	return (it);
 }
 
 int	is_equal(char *search, char *str)
@@ -125,7 +127,8 @@ char	*ft_union(char	**str)
 	{
 		if (is_in(str[len], '<') || is_in(str[len], '>'))
 		{
-			if (ft_strlen(str[len]) == 1)
+			if ((int)ft_strlen(str[len]) == is_in(str[len], '<')
+				|| (int)ft_strlen(str[len]) == is_in(str[len], '>'))
 				len ++;
 		}
 		else
