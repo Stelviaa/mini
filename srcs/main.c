@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/06/28 19:07:05 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/03 18:09:38 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 {
 	char	*command;
 
-	command = str_lower(cmd->name);
+	command = str_lower(cmd->arg[0]);
 	if (is_equal("echo", command))
 		ft_echo(cmd->arg);
-	else if (is_equal("pwd", command) && !cmd->arg[1])
+	else if (is_equal("pwd", command))
 		printf("%s\n", getcwd(NULL, 0));
 	else if (is_equal("export", command))
 		ft_export(envp, cmd->arg);
@@ -34,7 +34,7 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 	else
 	{
 		exec_cmd(cmd, envp, line);
-		if (!count_pipe(line))
+		if (!count_pipe(line) || cmd->here_doc == 1)
 			waitpid(-1, NULL, 0);
 	}
 }
@@ -173,7 +173,6 @@ int	main(int ac, char **av, char **envp)
 			add_history(oui);
 			manage_exec(oui, envp);
 		}
-		printf("exit\n");
 	}
 	return (0);
 }

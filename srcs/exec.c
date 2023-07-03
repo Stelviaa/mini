@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:07:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/28 20:07:11 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:22:40 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ void	manage_exec(char *line, char **envp)
 	t_cmd	*cmd;
 
 	cmd = parsed_line(line, envp);
+	if (cmd->arg[0] == NULL && cmd->file->type == 3 && cmd->file->fd_file)
+	{
+		create_infile(cmd->file->fd_file);
+		if (!cmd->next)
+			return ;
+		cmd->next->here_doc = 1;
+		cmd = cmd->next;
+	}
 	if (cmd->arg[0][0] == 0)
 		return ;
 	if (cmd->next)

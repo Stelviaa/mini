@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 13:57:20 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/27 08:01:33 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:00:20 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	exec_pipe(t_cmd *cmd, char **envp, char *line)
 	{
 		redirection_exit(cmd);
 		get_command(cmd, envp, line);
+		exit(0);
 	}
 	else
 	{
