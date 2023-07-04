@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:33:52 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 17:38:25 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:54:29 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 	pid = 0;
 	(void) line;
 	//printf ("%d\n", count_pipe(line));
-	if (!count_pipe(line))
+	if (!count_pipe(line) || !""cmd->arg[0])
 		pid = fork();
 	status = 0;
 	if (pid == 0)

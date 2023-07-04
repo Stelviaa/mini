@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 13:57:20 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/03 17:00:20 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:49:42 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	exec_pipe(t_cmd *cmd, char **envp, char *line)
 	pid = fork();
 	if (pid == 0)
 	{
-		redirection_exit(cmd);
+		if (cmd->next)
+			redirection_exit(cmd);
 		get_command(cmd, envp, line);
 		exit(0);
 	}
@@ -82,6 +83,11 @@ int	manage_pipe(t_cmd *cmd, char **envp, char *line)
 	stdin_fd = dup(STDIN_FILENO);
 	while (cmd)
 	{
+		if (!cmd->arg[0] && cmd->file->type == 3)
+		{
+			get_command(cmd, envp, line);
+			cmd = cmd->next;
+		}
 		exec_pipe(cmd, envp, line);
 		cmd = cmd->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:29:31 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/28 19:32:29 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/04 19:35:23 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*read_input(char *limiter, char *str, char *line)
 {
 	while (1)
 	{
-		write (1, "> ", 2);
+		write (2, "> ", 2);
 		line = get_next_line(0);
 		if (!ft_strcmp(line, limiter))
 			return (str);

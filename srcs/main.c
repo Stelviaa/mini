@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/07/04 17:13:00 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:52:18 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 {
 	char	*command;
 
-	command = str_lower(cmd->arg[0]);
+	if (cmd->arg[0] == NULL)
+		command = NULL;
+	else	
+		command = str_lower(cmd->arg[0]);
 	if (is_equal("echo", command))
 		ft_echo(cmd->arg);
 	else if (is_equal("pwd", command))
@@ -34,9 +37,9 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 	else
 	{
 		exec_cmd(cmd, envp, line);
-		if (!count_pipe(line) || cmd->here_doc == 1)
+		if (!count_pipe(line) || command == NULL)
 			waitpid(-1, NULL, 0);
-	}
+	 }
 }
 
 char	*ft_strmup(const char *s1)

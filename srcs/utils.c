@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:24:07 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 16:35:34 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:38:59 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	is_equal(char *search, char *str)
 	int	i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	while (search[i])
 	{
 		if (str[i] != search[i])
