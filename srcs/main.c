@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/07/03 18:09:38 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:57:25 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,28 @@ char	*ft_getenv(char **envp, char *str)
 	return (0);
 }
 
+int	is_in_quote(char *str, char c)
+{
+	int	i;
+	int it;
+	int	quote;
+
+	i = 0;
+	it = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 || str[i] == 39)
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = 0;
+		if (str[i] == c && quote != 39)
+			it ++;
+		i ++;
+	}
+	return (it);
+}
+
 char	**pre_process(char **str, char **envp)
 {
 	int		i;
@@ -104,8 +126,9 @@ char	**pre_process(char **str, char **envp)
 	y = 1;
 	while (str[++i])
 	{
-		if (is_in(str[i], '$'))
+		if (is_in_quote(str[i], '$'))
 		{
+			str[i] = reset_quote(str[i]);
 			ret = ft_split(str[i], '$');
 			if (str[i][0] == '$')
 				str[i] = ft_strmup(ft_getenv(envp, ret[0]));
@@ -118,6 +141,8 @@ char	**pre_process(char **str, char **envp)
 			}
 			y = 1;
 		}
+		else
+			str[i] = reset_quote(str[i]);
 	}
 	return (str);
 }

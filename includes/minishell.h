@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/03 17:20:22 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:06:10 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ char	*ft_union(char	**str);
 t_cmd	*parsed_line(char *line, char **envp);
 void	manage_redirec(char **envp, t_cmd *cmd, char *line);
 t_file	*init_tfile(char *line);
+char	*reset_quote(char *str);
 
 #endif

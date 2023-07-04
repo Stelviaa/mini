@@ -6,7 +6,7 @@
 /*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 08:15:45 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/29 01:27:30 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/04 15:26:34 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 					file->fd_file = ft_split(cmd->arg[x], '<')[0];
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+				file->fd_file = reset_quote(file->fd_file);
 			}
 			else if (cmd->arg[x][y] == '<')
 			{
@@ -92,10 +93,11 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 					file = file->next; 
 				}
 				file->type = 1;
-				if (ft_strlen(cmd->arg[x]) > 2)
+				if (ft_strlen(cmd->arg[x]) > 1)
 					file->fd_file = ft_split(cmd->arg[x], '<')[0];
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+				file->fd_file = reset_quote(file->fd_file);
 			}
 			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '>' )
 			{
@@ -106,10 +108,11 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 				}
 				file->type = 4;
 				y ++;
-				if (ft_strlen(cmd->arg[x]) > 1)
+				if (ft_strlen(cmd->arg[x]) > 2)
 					file->fd_file = ft_split(cmd->arg[x], '>')[0];
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+				file->fd_file = reset_quote(file->fd_file);
 			}
 			else if (cmd->arg[x][y] == '>')
 			{
@@ -123,6 +126,7 @@ void	manage_redirec(char **envp, t_cmd *cmd, char *line)
 					file->fd_file = ft_split(cmd->arg[x], '>')[0];
 				else
 					file->fd_file = ft_strdup(cmd->arg[x + 1]);
+				file->fd_file = reset_quote(file->fd_file);
 			}
 			y ++;
 		}

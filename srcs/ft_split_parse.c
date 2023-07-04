@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mboyer <mboyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:01:47 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/27 09:38:07 by mboyer           ###   ########.fr       */
+/*   Updated: 2023/07/04 13:58:03 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*ft_fill_str(char const *s, int start, int end, char c)
 	while (start < end)
 	{
 		if ((((s[start] == 34 || s[start] == 39) && !quote)
-				|| quote == s[start]) && c != '|')
+				|| quote == s[start]) && (c != '|' && c != ' '))
 			start++;
 		else
 			str[i++] = s[start++];

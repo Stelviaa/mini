@@ -1,3 +1,11 @@
 
-dwa
-awda
+
+
+Makefile$
+b$
+e$
+includes$
+libft$
+minishell$
+srcs$
+todo$

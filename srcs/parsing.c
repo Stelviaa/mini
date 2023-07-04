@@ -3,14 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:50:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/03 17:20:32 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:58:13 by luxojr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*reset_quote(char *str)
+{
+	int		i;
+	int		j;
+	int		quote;
+	char	*ret;
+
+	i = 0;
+	j = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if (!quote && (str[i] == 34 || str[i] == 39))
+		{
+			quote = str[i];
+			j ++;
+		}
+		else if (quote == str[i])
+		{	
+			quote = 0;
+			j ++;
+		}
+		i ++;
+	}
+	ret = malloc(sizeof(char) * (i - j) + 1);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (!quote && (str[i] == 34 || str[i] == 39))
+		{
+			quote = str[i];
+			i ++;
+		}
+		else if (quote == str[i])
+		{	
+			quote = 0;
+			i ++;
+		}
+		ret[j] = str[i];
+		if (str[i])
+		{
+			i ++;
+			j ++;
+		}
+	}
+	ret[j] = 0;
+	free(str);
+	return (ret);
+}
 
 void	get_commands(char *line, t_cmd *cmd, char **envp)
 {
@@ -42,6 +93,7 @@ void	get_commands(char *line, t_cmd *cmd, char **envp)
 		}
 		i ++;
 	}
+
 	cmd->next = 0;
 }
 
