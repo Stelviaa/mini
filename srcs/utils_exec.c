@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:33:52 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 15:24:16 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/04 17:38:25 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 	pid = 0;
 	(void) line;
 	//printf ("%d\n", count_pipe(line));
-	if (!count_pipe(line) || cmd->here_doc == 1)
+	if (!count_pipe(line))
 		pid = fork();
+	status = 0;
 	if (pid == 0)
 	{
 		glob = 1;

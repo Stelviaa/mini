@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:07:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/03 17:22:40 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:38:38 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,36 @@ char	*join_path(char **str)
 	return (line);
 }
 
+int	verif(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '|'&& line[i + 1] == '|')
+			return (-1);
+		i ++;
+		if (line[i] == 34)
+			while (line[i] != 39)
+				i++;
+		if (line[i] == 39)
+			while (line[i] != 39)
+				i++;
+	}
+	return (0);
+}
+
 void	manage_exec(char *line, char **envp)
 {
 	t_cmd	*cmd;
 
-	cmd = parsed_line(line, envp);
-	if (cmd->arg[0] == NULL && cmd->file->type == 3 && cmd->file->fd_file)
+	if (verif(line) == -1)
 	{
-		create_infile(cmd->file->fd_file);
-		if (!cmd->next)
-			return ;
-		cmd->next->here_doc = 1;
-		cmd = cmd->next;
+		printf ("Minishell: syntax error near unexpected token `|'\n");
+		exit(0);
 	}
-	if (cmd->arg[0][0] == 0)
-		return ;
+	cmd = parsed_line(line, envp);
 	if (cmd->next)
 		manage_pipe(cmd, envp, line);
 	else

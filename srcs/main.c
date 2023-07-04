@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/07/04 15:57:25 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/04 17:13:00 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 	else if (is_equal("env", command) && !cmd->arg[1])
 		ft_env(envp);
 	else if (is_equal("exit", command))
-		ft_exit(envp);
+		ft_exit(envp, cmd->arg[1]);
 	else if (is_equal("unset", command))
 		ft_unset(cmd->arg, envp);
 	else if (is_equal("cd", command))

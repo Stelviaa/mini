@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:28:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/24 11:55:36 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:28:45 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,17 +134,48 @@ void	ft_unset(char **name, char **envp)
 	}
 }
 
+void	go_home(char	**envp)
+{
+	int y;
+	int i;
+	int u;
+	char	*path;
+
+	i = 5;
+	u = 0;
+	y = index_env(ft_strdup("OLDPWD"), envp);
+	envp[y] = ft_strjoin(ft_strdup("OLDPWD="), ft_strdup(getcwd(NULL, 0)));
+	y = index_env(ft_strdup("HOME"), envp);
+	path = malloc(sizeof(char) * ft_strlen(envp[y]) - 4);
+	while (envp[y][i])
+	{
+		path[u] = envp[y][i];
+		u ++;
+		i ++;
+	}
+	path[u] = '\0';
+	chdir(path);
+	y = index_env(ft_strdup("PWD"), envp);
+	envp[y] = ft_strjoin(ft_strdup("PWD="), ft_strdup(getcwd(NULL, 0)));
+	return;
+}
+
 void	ft_cd(char *path, char **envp)
 {
-	int	i;
+	DIR	*i;
 	int	y;
 
-	i = access(path, F_OK);
-	if (i == -1)
+	if (path == NULL)
 	{
-		strerror(errno);
-		perror("Minishell: cd:");
-		perror(path);
+		go_home(envp);
+		return ;
+	}
+	if ((path[0] == 34 || path[0] == 39) && !path[1])
+		return ;
+	i = opendir(path);
+	if (i == NULL)
+	{
+		perror(ft_strjoin_f("Minishell: cd: ", path, 4));
 		return ;
 	}
 	y = index_env(ft_strdup("OLDPWD"), envp);

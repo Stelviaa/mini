@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:26:40 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/08 11:09:54 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:30:54 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,24 @@ void	ft_echo(char **str)
 {
 	int	i;
 	int	last;
+	int k;
 
 	i = 0;
+	k = 0;
 	last = 1;
 	if (str[1] == NULL)
 	{
 		printf("\n");
 		return ;
 	}
-	if (is_equal_n("-n", str[1]))
+	while (str[k])
 	{
-		i ++;
-		last = 0;
+		if (is_equal_n("-n", str[k]))
+		{
+			i ++;
+			last = 0;
+		}
+		k ++;
 	}
 	while (str[++i])
 	{

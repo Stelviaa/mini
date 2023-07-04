@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 15:06:10 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:35:17 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
 # include <sys/types.h>
 # include <sys/file.h>
 # include <sys/stat.h>
@@ -47,7 +48,7 @@ void	ft_echo(char **str);
 void	ft_env(char **envp);
 int		is_in(char *str, char c);
 int		is_equal(char *search, char *str);
-void	ft_exit(char **envp);
+void	ft_exit(char **envp, char *arg);
 void	ft_export(char **envp, char **str);
 void	ft_unset(char **name, char **envp);
 void	ft_cd(char *path, char **envp);
