@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:50:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/05 04:19:26 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:15:56 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,16 @@ void	get_commands(char *line, t_cmd *cmd, char **envp)
 t_cmd	*parsed_line(char *line, char **envp)
 {
 	t_cmd	*cmd;
+	t_cmd	*begin_cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	cmd->file = 0;
 	get_commands(line, cmd, envp);
-	return (cmd);
+	begin_cmd = cmd;
+	while (cmd)
+	{
+		redirection(cmd, cmd->file);
+		cmd = cmd->next;
+	}
+	return (begin_cmd);
 }

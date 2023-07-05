@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:16:02 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/05 03:22:42 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:20:14 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	open_files_exit(t_file *file)
 	return (fd);
 }
 
-void	redirection(t_file *file)
+void	redirection(t_cmd *cmd, t_file *file)
 {
 	int	i;
 	int	fd[2];
@@ -86,8 +86,6 @@ void	redirection(t_file *file)
 			close(fd[1]);
 		file = file->next;
 	}
-	if (fd[0] && fd[0] != -1)
-		dup2(fd[0], STDIN_FILENO);
-	if (fd[1] && fd[1] != -1)
-		dup2(fd[1], STDOUT_FILENO);
+	cmd->in = dup(fd[0]);
+	cmd->out = dup(fd[1]);
 }

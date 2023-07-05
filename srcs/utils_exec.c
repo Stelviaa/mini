@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:33:52 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/05 04:26:11 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:37:06 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 	if (pid == 0)
 	{
 		g_glob = 1;
-		redirection(cmd->file);
+		dup2(cmd->in, STDIN_FILENO);
+		dup2(cmd->out, STDOUT_FILENO);
 		status = execve(cmd->name, cmd->arg, envp);
 		if (status == -1)
 		{

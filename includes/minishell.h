@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/05 04:25:15 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 08:20:40 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_cmd {
 	char			*name;
 	char			**arg;
 	int				fd[2];
+	int				in;
+	int				out;
 	int				here_doc;
 	t_file			*file;
 	struct s_cmd	*next;
@@ -82,7 +84,7 @@ t_cmd	*parsed_line(char *line, char **envp);
 void	manage_redirec(t_cmd *cmd, char *line);
 t_file	*init_tfile(char *line);
 char	*reset_quote(char *str);
-void	redirection(t_file *file);
+void	redirection(t_cmd *cmd, t_file *file);
 void	quit(int i);
 void	handle_ctrl(void);
 void	interrupt(int i);
@@ -92,10 +94,10 @@ int		index_env(char *name, char **envp);
 int		is_env(char	*env, char	*str);
 int		ft_is_charset_pa(char const s, char c);
 char	*ft_fill_str_pa(char const *s, int start, int end, char c);
-void	parsing_en_here_doc(t_cmd *cmd, t_file *file, int coor[2], char *line);
-void	parsing_en(t_cmd *cmd, t_file *file, int coor[2], char *line);
-void	parsing_ex_append(t_cmd *cmd, t_file *file, int coor[2], char *line);
-void	parsing_ex(t_cmd *cmd, t_file *file, int coor[2], char *line);
+void	parsing_en_here_doc(t_cmd *cmd, t_file *file, int coor[2]);
+void	parsing_en(t_cmd *cmd, t_file *file, int coor[2]);
+void	parsing_ex_append(t_cmd *cmd, t_file *file, int coor[2]);
+void	parsing_ex(t_cmd *cmd, t_file *file, int coor[2]);
 void	choose_parsing(t_cmd *cmd, t_file *file, char *line, int coor[2]);
 void	call_parsing_redir(t_cmd *cmd, char *lines, char *line);
 

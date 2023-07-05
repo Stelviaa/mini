@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:07:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/05 02:44:59 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 08:43:07 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,12 @@ int	verif(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '|' && line[i + 1] == '|')
+		if ((line[i] == '|' && line[i + 1] == '|'))
 			return (-1);
+		if (line[i] == '>' && line[i + 1] == '>' && line[i + 2] == '>')
+			return (-2);
+		if (line[i] == '<' && line[i + 1] == '<' && line[i + 2] == '<')
+			return (-3);
 		i ++;
 		if (line[i] == 34)
 			while (line[i] != 39)
@@ -54,6 +58,16 @@ void	manage_exec(char *line, char **envp)
 	if (verif(line) == -1)
 	{
 		printf ("Minishell: syntax error near unexpected token `|'\n");
+		exit(0);
+	}
+	if (verif(line) == -2)
+	{
+		printf ("Minishell: syntax error near unexpected token `>'\n");
+		exit(0);
+	}
+	if (verif(line) == -3)
+	{
+		printf ("Minishell: syntax error near unexpected token `<'\n");
 		exit(0);
 	}
 	cmd = parsed_line(line, envp);
