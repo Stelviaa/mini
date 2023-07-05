@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:44:13 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 20:30:47 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 04:25:15 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_cmd {
 	struct s_cmd	*next;
 }				t_cmd;
 
-int glob;
+int	g_glob;
 
 void	ft_echo(char **str);
 void	ft_env(char **envp);
@@ -79,9 +79,24 @@ void	redirect_ex_cmd_basic(t_file *file);
 void	redirect_en_cmd_basic(t_file *file);
 char	*ft_union(char	**str);
 t_cmd	*parsed_line(char *line, char **envp);
-void	manage_redirec(char **envp, t_cmd *cmd, char *line);
+void	manage_redirec(t_cmd *cmd, char *line);
 t_file	*init_tfile(char *line);
 char	*reset_quote(char *str);
 void	redirection(t_file *file);
+void	quit(int i);
+void	handle_ctrl(void);
+void	interrupt(int i);
+char	*ft_getenv(char **envp, char *str);
+char	**ft_fill_pa(char const *s, char c, char **r_str, int verif);
+int		index_env(char *name, char **envp);
+int		is_env(char	*env, char	*str);
+int		ft_is_charset_pa(char const s, char c);
+char	*ft_fill_str_pa(char const *s, int start, int end, char c);
+void	parsing_en_here_doc(t_cmd *cmd, t_file *file, int coor[2], char *line);
+void	parsing_en(t_cmd *cmd, t_file *file, int coor[2], char *line);
+void	parsing_ex_append(t_cmd *cmd, t_file *file, int coor[2], char *line);
+void	parsing_ex(t_cmd *cmd, t_file *file, int coor[2], char *line);
+void	choose_parsing(t_cmd *cmd, t_file *file, char *line, int coor[2]);
+void	call_parsing_redir(t_cmd *cmd, char *lines, char *line);
 
 #endif

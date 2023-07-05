@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:42:08 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/23 17:11:21 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/05 03:02:31 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*get_next_line(int fd)
 	if (fd == -1)
 	{
 		if (buf)
-		{	
+		{
 			free(buf);
 			buf = NULL;
 		}

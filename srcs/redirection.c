@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:16:02 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 21:16:20 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 03:22:42 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	open_files_enter(t_file *file)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	if (file->type == 1)
@@ -66,7 +66,7 @@ int	open_files_exit(t_file *file)
 
 void	redirection(t_file *file)
 {
-	int i;
+	int	i;
 	int	fd[2];
 
 	i = 0;
@@ -78,18 +78,16 @@ void	redirection(t_file *file)
 			fd[0] = open_files_enter(file);
 		if (file->fd_file && (file->type == 2 || file->type == 4))
 			fd[1] = open_files_exit(file);
-		if (file->next && (file->next->type == 1
-			|| file->next->type == 3) && fd[0])
-				close(fd[0]);
-		if (file->next && (file->next->type == 2
-			|| file->next->type == 4) && fd[1])
-				close(fd[1]);
+		if (file->next
+			&& (file->next->type == 1 || file->next->type == 3) && fd[0])
+			close(fd[0]);
+		if (file->next
+			&& (file->next->type == 2 || file->next->type == 4) && fd[1])
+			close(fd[1]);
 		file = file->next;
 	}
 	if (fd[0] && fd[0] != -1)
 		dup2(fd[0], STDIN_FILENO);
 	if (fd[1] && fd[1] != -1)
 		dup2(fd[1], STDOUT_FILENO);
-	//close_fd(fd);
 }
-	

@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:26:40 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 15:30:54 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 02:42:04 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,21 @@ int	is_equal_n(char *search, char *str)
 	return (1);
 }
 
+void	ft_echo_bis(char **str, int i)
+{
+	while (str[++i])
+	{
+		printf("%s", str[i]);
+		if (str[i + 1])
+			printf(" ");
+	}
+}
+
 void	ft_echo(char **str)
 {
 	int	i;
 	int	last;
-	int k;
+	int	k;
 
 	i = 0;
 	k = 0;
@@ -55,12 +65,7 @@ void	ft_echo(char **str)
 		}
 		k ++;
 	}
-	while (str[++i])
-	{
-		printf("%s", str[i]);
-		if (str[i + 1])
-			printf(" ");
-	}
+	ft_echo_bis(str, i);
 	if (last)
 		printf("\n");
 }

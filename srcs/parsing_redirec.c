@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 08:15:45 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 17:38:10 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 04:06:24 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	find_name(char	**str, int mode)
 	return (-1);
 }
 
-
 t_file	*init_tfile(char *line)
 {
 	t_file	*file;
@@ -52,84 +51,25 @@ t_file	*init_tfile(char *line)
 	return (file);
 }
 
-
-void	manage_redirec(char **envp, t_cmd *cmd, char *line)
+void	call_parsing_redir(t_cmd *cmd, char *lines, char *line)
 {
-	int		x;
-	int		y;
+	if (find_name(cmd->arg, 1) != -1 || find_name(cmd->arg, 2) != -1)
+	{
+		manage_redirec(cmd, line);
+		lines = ft_union(cmd->arg);
+		free_dptr(cmd->arg);
+		cmd->arg = ft_split(lines, ' ');
+	}
+}
+
+void	manage_redirec(t_cmd *cmd, char *line)
+{
+	int		coor[2];
 	t_file	*file;
 
-	(void)envp;
-	(void)line;
-	x = 0;
-	y = 0;
+	coor[0] = 0;
+	coor[1] = 0;
 	cmd->file = init_tfile(line);
 	file = cmd->file;
-	while (cmd->arg[x])
-	{
-		y = 0;
-		while (cmd->arg[x][y])
-		{
-			if (cmd->arg[x][y] == '<' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '<' )
-			{
-				if (file->type != 0)
-				{
-					file->next = init_tfile(line);
-					file = file->next; 
-				}
-				file->type = 3;
-				y ++;
-				if (ft_strlen(cmd->arg[x]) > 2)
-					file->fd_file = ft_split(cmd->arg[x], '<')[0];
-				else
-					file->fd_file = ft_strdup(cmd->arg[x + 1]);
-				file->fd_file = reset_quote(file->fd_file);
-			}
-			else if (cmd->arg[x][y] == '<')
-			{
-				if (file->type != 0)
-				{
-					file->next = init_tfile(line);
-					file = file->next; 
-				}
-				file->type = 1;
-				if (ft_strlen(cmd->arg[x]) > 1)
-					file->fd_file = ft_split(cmd->arg[x], '<')[0];
-				else
-					file->fd_file = ft_strdup(cmd->arg[x + 1]);
-				file->fd_file = reset_quote(file->fd_file);
-			}
-			if (cmd->arg[x][y] == '>' && cmd->arg[x][y + 1] && cmd->arg[x][y + 1] == '>' )
-			{
-				if (file->type != 0)
-				{
-					file->next = init_tfile(line);
-					file = file->next; 
-				}
-				file->type = 4;
-				y ++;
-				if (ft_strlen(cmd->arg[x]) > 2)
-					file->fd_file = ft_split(cmd->arg[x], '>')[0];
-				else
-					file->fd_file = ft_strdup(cmd->arg[x + 1]);
-				file->fd_file = reset_quote(file->fd_file);
-			}
-			else if (cmd->arg[x][y] == '>')
-			{
-				if (file->type != 0)
-				{
-					file->next = init_tfile(line);
-					file = file->next; 
-				}
-				file->type = 2;
-				if (ft_strlen(cmd->arg[x]) > 1)
-					file->fd_file = ft_split(cmd->arg[x], '>')[0];
-				else
-					file->fd_file = ft_strdup(cmd->arg[x + 1]);
-				file->fd_file = reset_quote(file->fd_file);
-			}
-			y ++;
-		}
-		x ++;
-	}
+	choose_parsing(cmd, file, line, coor);
 }

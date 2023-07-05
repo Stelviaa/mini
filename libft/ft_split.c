@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:01:47 by sforesti          #+#    #+#             */
-/*   Updated: 2023/06/26 16:34:18 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 02:39:40 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_charset(char const s, char c)
 {
 	return (c == s);
-}	
+}
 
 int	size_strs(char const *s, char c)
 {
@@ -32,7 +32,7 @@ int	size_strs(char const *s, char c)
 		{
 			j ++;
 			while (!is_charset(s[i], c) && s[i])
-					i++;
+				i++;
 		}
 	}
 	return (j);

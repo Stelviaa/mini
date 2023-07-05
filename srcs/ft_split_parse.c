@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luxojr <luxojr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:01:47 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 13:58:03 by luxojr           ###   ########.fr       */
+/*   Updated: 2023/07/05 03:10:38 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_is_charset(char const s, char c)
+int	ft_is_charset_pa(char const s, char c)
 {
 	return (c == s);
-}	
+}
 
 int	ft_size_strs(char const *s, char c)
 {
@@ -28,12 +28,12 @@ int	ft_size_strs(char const *s, char c)
 	quote = 0;
 	while (s[i])
 	{
-		while (ft_is_charset(s[i], c) && s[i])
+		while (ft_is_charset_pa(s[i], c) && s[i])
 			i ++;
-		if (!ft_is_charset(s[i], c) && s[i])
+		if (!ft_is_charset_pa(s[i], c) && s[i])
 		{
 			j ++;
-			while ((!ft_is_charset(s[i], c) || quote) && s[i])
+			while ((!ft_is_charset_pa(s[i], c) || quote) && s[i])
 			{
 				if ((s[i] == 39 || s[i] == 34) && quote == 0)
 					quote = s[i];
@@ -65,7 +65,7 @@ int	nb_quotes(char const *s, int start, int end)
 	return (nb);
 }
 
-char	*ft_fill_str(char const *s, int start, int end, char c)
+char	*ft_fill_str_pa(char const *s, int start, int end, char c)
 {
 	char	*str;
 	int		i;
@@ -92,42 +92,6 @@ char	*ft_fill_str(char const *s, int start, int end, char c)
 	return (str);
 }
 
-char	**ft_fill(char const *s, char c, char **r_str, int verif)
-{
-	int	i;
-	int	j;
-	int	start;
-	int	quote;
-	int	end;
-
-	i = 0;
-	start = 0;
-	end = 0;
-	j = 0;
-	quote = 0;
-	while (s[i] && !verif)
-	{
-		while (s[i] && ft_is_charset(s[i], c))
-			i++;
-		start = i;
-		while (s[i] && (!ft_is_charset(s[i], c) || quote))
-		{
-			if ((s[i] == 39 || s[i] == 34) && quote == 0)
-				quote = s[i];
-			else if (s[i] == quote)
-				quote = 0;
-			i++;
-		}
-		end = i;
-		while (s[i] && ft_is_charset(s[i], c))
-			i++;
-		r_str[j] = ft_fill_str(s, start, end, c);
-		j ++;
-	}
-	r_str[j] = 0;
-	return (r_str);
-}
-
 char	**ft_split_parse(char const *s, char c)
 {
 	char	**r_str;
@@ -145,6 +109,6 @@ char	**ft_split_parse(char const *s, char c)
 		i++;
 	if (!s[i])
 		verif = 1;
-	r_str = ft_fill(s, c, r_str, verif);
+	r_str = ft_fill_pa(s, c, r_str, verif);
 	return (r_str);
 }

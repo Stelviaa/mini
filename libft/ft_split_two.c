@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:01:47 by sforesti          #+#    #+#             */
-/*   Updated: 2023/05/04 15:40:40 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 02:39:51 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	size_strs_two(char const *s, char *c)
 		{
 			j ++;
 			while (!is_charset_two(s[i], c) && s[i])
-					i++;
+				i++;
 		}
 	}
 	return (j);

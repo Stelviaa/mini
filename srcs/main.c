@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:25:01 by mboyer            #+#    #+#             */
-/*   Updated: 2023/07/04 19:52:18 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 04:25:55 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 {
 	char	*command;
 
-	if (cmd->arg[0] == NULL)
-		command = NULL;
-	else	
+	command = NULL;
+	if (cmd->arg[0] != NULL)
 		command = str_lower(cmd->arg[0]);
 	if (is_equal("echo", command))
 		ft_echo(cmd->arg);
@@ -39,7 +38,7 @@ void	get_command(t_cmd *cmd, char **envp, char *line)
 		exec_cmd(cmd, envp, line);
 		if (!count_pipe(line) || command == NULL)
 			waitpid(-1, NULL, 0);
-	 }
+	}
 }
 
 char	*ft_strmup(const char *s1)
@@ -68,39 +67,10 @@ char	*ft_strmup(const char *s1)
 	return (ret);
 }
 
-char	*ft_getenv(char **envp, char *str)
-{
-	int		i;
-	int		o;
-	char	**line;
-
-	i = -1;
-	while (envp[++i])
-	{
-		o = 0;
-		line = ft_split(envp[i], '=');
-		while (line[o])
-			o ++;
-		if (o > 1)
-		{
-			o = 2;
-			while (line[o])
-			{	
-				line[1] = ft_strjoin(ft_strjoin_f(line[1], "=", 1), line[o]);
-				o ++;
-			}
-		}
-		if (!ft_strncmp(line[0], str, ft_strlen(line[0]))
-			&& !ft_strncmp(line[0], str, ft_strlen(str)))
-			return (line[1]);
-	}
-	return (0);
-}
-
 int	is_in_quote(char *str, char c)
 {
 	int	i;
-	int it;
+	int	it;
 	int	quote;
 
 	i = 0;
@@ -137,50 +107,14 @@ char	**pre_process(char **str, char **envp)
 				str[i] = ft_strmup(ft_getenv(envp, ret[0]));
 			else
 				str[i] = ft_strmup(ret[0]);
-			while (ret[y])
-			{
+			while (ret[y++])
 				str[i] = ft_strjoin_f(str[i], ft_getenv(envp, ret[y]), 1);
-				y ++;
-			}
 			y = 1;
 		}
 		else
 			str[i] = reset_quote(str[i]);
 	}
 	return (str);
-}
-
-void	interrupt(int i)
-{
-	(void)i;
-	kill(-15, SIGINT);
-	write(1, "\b", 1);
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	quit(int i)
-{
-	(void)i;
-	if (glob == 1)
-	{
-		write(1, "\b", 1);
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	handle_ctrl(void)
-{
-	struct termios	new;
-
-	tcgetattr(0, &new);
-	new.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, TCSANOW, &new);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -194,7 +128,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, quit);
 	while (oui != 0)
 	{
-		glob = 0;
+		g_glob = 0;
 		oui = readline("Minishell>");
 		if (oui && *oui)
 		{

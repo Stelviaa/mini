@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:33:52 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 21:06:35 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 04:26:11 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,31 +108,24 @@ void	exec_cmd(t_cmd *cmd, char **envp, char *line)
 {
 	pid_t	pid;
 	int		status;
+	char	*tmp;
 
 	pid = 0;
+	tmp = NULL;
 	(void) line;
 	if (!count_pipe(line) || !cmd->arg[0])
 		pid = fork();
 	status = 0;
 	if (pid == 0)
 	{
-		glob = 1;
+		g_glob = 1;
 		redirection(cmd->file);
 		status = execve(cmd->name, cmd->arg, envp);
 		if (status == -1)
 		{
-			ft_putstr_fd(ft_strjoin_f(ft_strjoin_f("Minishell: ", cmd->arg[0], 4), ": command not found\n", 1), 2);
+			tmp = ft_strjoin_f("Minishell: ", cmd->arg[0], 4);
+			ft_putstr_fd(ft_strjoin_f(tmp, ": command not found\n", 1), 2);
 			exit(0);
 		}
 	}
-}
-
-int	size_dptr(char **str)
-{
-	int	i;
-
-	i = -1;
-	while (str[i])
-		i++;
-	return (i);
 }

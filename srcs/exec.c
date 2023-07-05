@@ -6,7 +6,7 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:07:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 21:06:43 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 02:44:59 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ char	*join_path(char **str)
 
 int	verif(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '|'&& line[i + 1] == '|')
+		if (line[i] == '|' && line[i + 1] == '|')
 			return (-1);
 		i ++;
 		if (line[i] == 34)

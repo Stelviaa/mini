@@ -6,11 +6,38 @@
 /*   By: sforesti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 17:50:17 by sforesti          #+#    #+#             */
-/*   Updated: 2023/07/04 18:14:02 by sforesti         ###   ########.fr       */
+/*   Updated: 2023/07/05 04:19:26 by sforesti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	reset_quote_two(int quote, char *str, char	*ret)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (!quote && (str[i] == 34 || str[i] == 39))
+			quote = str[i++];
+		else if (quote == str[i])
+		{
+			quote = 0;
+			i ++;
+		}
+		ret[j] = str[i];
+		if (str[i])
+		{
+			i ++;
+			j ++;
+		}
+	}
+	ret[j] = 0;
+	free(str);
+}
 
 char	*reset_quote(char *str)
 {
@@ -30,36 +57,14 @@ char	*reset_quote(char *str)
 			j ++;
 		}
 		else if (quote == str[i])
-		{	
+		{
 			quote = 0;
 			j ++;
 		}
 		i ++;
 	}
 	ret = malloc(sizeof(char) * (i - j) + 1);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (!quote && (str[i] == 34 || str[i] == 39))
-		{
-			quote = str[i];
-			i ++;
-		}
-		else if (quote == str[i])
-		{	
-			quote = 0;
-			i ++;
-		}
-		ret[j] = str[i];
-		if (str[i])
-		{
-			i ++;
-			j ++;
-		}
-	}
-	ret[j] = 0;
-	free(str);
+	reset_quote_two(quote, str, ret);
 	return (ret);
 }
 
@@ -87,13 +92,7 @@ void	get_commands(char *line, t_cmd *cmd, char **envp)
 		init_struct(cmd);
 		cmd->arg = ft_split_parse(cmds[i], ' ');
 		cmd->here_doc = 0;
-		if (find_name(cmd->arg, 1) != -1 || find_name(cmd->arg, 2) != -1)
-		{
-			manage_redirec(envp, cmd, line);
-			lines = ft_union(cmd->arg);
-			free_dptr(cmd->arg);
-			cmd->arg = ft_split(lines, ' ');
-		}
+		call_parsing_redir(cmd, lines, line);
 		pre_process(cmd->arg, envp);
 		cmd->name = acces_cmd(envp, cmd->arg[0]);
 		if (cmds[i + 1])
